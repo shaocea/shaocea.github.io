@@ -42,14 +42,14 @@
     <h2>Crit Boss Damage 模擬計算器</h2>
     
     <div class="grid">
-        <div class="input-group"><label>ATK (基礎攻擊)</label><input type="number" id="atk" placeholder="填入數值"></div>
-        <div class="input-group"><label>Skill DMG (%)</label><input type="number" id="skill_dmg" placeholder="填入數值"></div>
-        <div class="input-group"><label>DMG Increase (%)</label><input type="number" id="dmg_inc" placeholder="填入數值"></div>
-        <div class="input-group"><label>Final DMG (%)</label><input type="number" id="final_dmg" placeholder="填入數值"></div>
-        <div class="input-group"><label>Skill Final (%)</label><input type="number" id="skill_final_dmg" placeholder="填入數值"></div>
-        <div class="input-group"><label>ATK Increase (%)</label><input type="number" id="atk_inc" placeholder="填入數值"></div>
-        <div class="input-group"><label>Boss ATK (%)</label><input type="number" id="boss_atk" placeholder="填入數值"></div>
-        <div class="input-group"><label>Crit DMG (%)</label><input type="number" id="crit_dmg" placeholder="填入數值"></div>
+        <div class="input-group"><label>表功 ATK</label><input type="number" id="atk" placeholder="填入數值"></div>
+        <div class="input-group"><label>技能倍率 Skill DMG (%)</label><input type="number" id="skill_dmg" placeholder="填入數值"></div>
+        <div class="input-group"><label>物/魔傷 DMG Increase (%)</label><input type="number" id="dmg_inc" placeholder="填入數值"></div>
+        <div class="input-group"><label>終傷 Final DMG (%)</label><input type="number" id="final_dmg" placeholder="填入數值"></div>
+        <div class="input-group"><label>技能終傷 Skill Final (%)</label><input type="number" id="skill_final_dmg" placeholder="填入數值"></div>
+        <div class="input-group"><label>物/魔攻 ATK Increase (%)</label><input type="number" id="atk_inc" placeholder="填入數值"></div>
+        <div class="input-group"><label>B傷 Boss ATK (%)</label><input type="number" id="boss_atk" placeholder="填入數值"></div>
+        <div class="input-group"><label>爆傷 Crit DMG (%)</label><input type="number" id="crit_dmg" placeholder="填入數值"></div>
     </div>
 
     <div class="btn-group">
@@ -92,14 +92,14 @@
 
 <script>
 const keys = [
-    { id: 'atk', name: 'ATK' },
-    { id: 'skill_dmg', name: 'Skill DMG (%)' },
-    { id: 'dmg_inc', name: 'DMG Increase (%)' },
-    { id: 'final_dmg', name: 'Final DMG (%)' },
-    { id: 'skill_final_dmg', name: 'Skill Final DMG (%)' },
-    { id: 'atk_inc', name: 'ATK Increase (%)' },
-    { id: 'boss_atk', name: 'Boss ATK (%)' },
-    { id: 'crit_dmg', name: 'Crit DMG (%)' }
+    { id: 'atk', name: '表攻 ATK' },
+    { id: 'skill_dmg', name: '技能倍率 Skill DMG (%)' },
+    { id: 'dmg_inc', name: '物/魔傷 DMG Increase (%)' },
+    { id: 'final_dmg', name: '終傷 Final DMG (%)' },
+    { id: 'skill_final_dmg', name: '技能終傷 Skill Final DMG (%)' },
+    { id: 'atk_inc', name: '物/魔攻ATK Increase (%)' },
+    { id: 'boss_atk', name: 'B攻 Boss ATK (%)' },
+    { id: 'crit_dmg', name: '爆傷 Crit DMG (%)' }
 ];
 
 // 初始化下拉選單
