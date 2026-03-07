@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crit Boss Damage 計算器</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f4f7f6; padding: 20px; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        h2 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .input-group { display: flex; flex-direction: column; }
+        label { font-size: 0.9em; font-weight: bold; margin-bottom: 5px; color: #555; }
+        input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 1em; }
+        button { background: #3498db; color: white; border: none; padding: 15px; border-radius: 6px; font-size: 1.1em; cursor: pointer; width: 100%; transition: 0.3s; }
+        button:hover { background: #2980b9; }
+        .result-section { margin-top: 30px; padding: 20px; background: #eef7ff; border-radius: 8px; }
+        .total-damage { font-size: 1.5em; color: #e74c3c; font-weight: bold; margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; }
+        th, td { padding: 12px; border: 1px solid #eee; text-align: left; }
+        th { background: #f8f9fa; }
+        .high-gain { color: #27ae60; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Crit Boss Damage 計算器</h2>
+    <p style="font-size: 0.85em; color: #666;">※ 假設 100% 暴擊率情況下之傷害評分與邊際收益分析</p>
+    
+    <div class="grid">
+        <div class="input-group">
+            <label>ATK (基礎攻擊力)</label>
+            <input type="number" id="atk" value="78129">
+        </div>
+        <div class="input-group">
+            <label>Skill DMG (%)</label>
+            <input type="number" id="skill_dmg" value="243">
+        </div>
+        <div class="input-group">
+            <label>DMG Increase (%)</label>
+            <input type="number" id="dmg_inc" value="279.4">
+        </div>
+        <div class="input-group">
+            <label>Final DMG (%)</label>
+            <input type="number" id="final_dmg" value="169.6">
+        </div>
+        <div class="input-group">
+            <label>Skill Final DMG (%)</label>
+            <input type="number" id="skill_final_dmg" value="120">
+        </div>
+        <div class="input-group">
+            <label>ATK Increase (%)</label>
+            <input type="number" id="atk_inc" value="187.4">
+        </div>
+        <div class="input-group">
+            <label>Boss ATK (%)</label>
+            <input type="number" id="boss_atk" value="274.82">
+        </div>
+        <div class="input-group">
+            <label>Crit DMG (%)</label>
+            <input type="number" id="crit_dmg" value="672.76">
+        </div>
+    </div>
+
+    <button onclick="calculate()">立即計算收益排行</button>
+
+    <div id="results" class="result-section" style="display:none;">
+        <div class="total-damage" id="total_damage_display"></div>
+        <h3>邊際收益分析 (提升 1% 絕對值之總傷增幅)</h3>
+        <table id="analysis_table">
+            <thead>
+                <tr>
+                    <th>屬性名稱</th>
+                    <th>提升 1 單位後總傷害</th>
+                    <th>實際收益增幅 (%)</th>
+                </tr>
+            </thead>
+            <tbody id="analysis_body"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+function calculate() {
+    const getVal = (id) => parseFloat(document.getElementById(id).value) || 0;
+
+    const stats = {
+        atk: getVal('atk'),
+        skill_dmg: getVal('skill_dmg'),
+        dmg_inc: getVal('dmg_inc'),
+        final_dmg: getVal('final_dmg'),
+        skill_final_dmg: getVal('skill_final_dmg'),
+        atk_inc: getVal('atk_inc'),
+        boss_atk: getVal('boss_atk'),
+        crit_dmg: getVal('crit_dmg')
+    };
+
+    function formula(s) {
+        const base = s.atk * (s.skill_dmg / 100);
+        const dmgInc = 1 + (s.dmg_inc / 100);
+        const final = 1 + (s.final_dmg / 100) + (s.skill_final_dmg / 100);
+        const atkBoss = 1 + (s.atk_inc / 100) + (s.skill_dmg / 100) * (s.boss_atk / 100);
+        const crit = 1 + (s.crit_dmg / 100) + 0.2;
+        return base * dmgInc * final * atkBoss * crit;
+    }
+
+    const currentDmg = formula(stats);
+    document.getElementById('total_damage_display').innerText = `當前總傷害評分：${currentDmg.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+
+    const analysisBody = document.getElementById('analysis_body');
+    analysisBody.innerHTML = '';
+
+    const keys = [
+        { key: 'atk', name: 'ATK (增加 1 點)' },
+        { key: 'skill_dmg', name: 'Skill DMG (+1%)' },
+        { key: 'dmg_inc', name: 'DMG Increase (+1%)' },
+        { key: 'final_dmg', name: 'Final DMG (+1%)' },
+        { key: 'skill_final_dmg', name: 'Skill Final DMG (+1%)' },
+        { key: 'atk_inc', name: 'ATK Increase (+1%)' },
+        { key: 'boss_atk', name: 'Boss ATK (+1%)' },
+        { key: 'crit_dmg', name: 'Crit DMG (+1%)' }
+    ];
+
+    // 計算各項收益並排序
+    const results = keys.map(item => {
+        let testStats = { ...stats };
+        testStats[item.key] += 1;
+        let newDmg = formula(testStats);
+        let gain = ((newDmg - currentDmg) / currentDmg) * 100;
+        return { name: item.name, newDmg, gain };
+    }).sort((a, b) => b.gain - a.gain);
+
+    results.forEach(res => {
+        const row = `<tr>
+            <td>${res.name}</td>
+            <td>${res.newDmg.toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
+            <td class="${res.gain > 0.2 ? 'high-gain' : ''}">${res.gain.toFixed(4)}%</td>
+        </tr>`;
+        analysisBody.innerHTML += row;
+    });
+
+    document.getElementById('results').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
