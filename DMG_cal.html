@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crit Boss Damage 對比工具</title>
+    <title>傷害提升收益計算工具</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eceff1; padding: 20px; color: #333; }
         .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
@@ -41,7 +41,7 @@
 <body>
 
 <div class="container">
-    <h2>Crit Boss Damage 模擬計算器</h2>
+    <h2>傷害提升收益計算工具</h2>
 
     <div class="formula-box">
         <strong>當前計算公式：</strong><br>
@@ -52,11 +52,12 @@
         <details style="font-size: 0.85em; color: #666;">
             <summary style="cursor: pointer; color: #3498db; font-weight: bold;">點擊查看乘區詳細說明</summary>
             <ul style="margin-top: 5px; padding-left: 20px;">
+                <li>計算結果皆預設為百爆。</li>
                 <li><strong>基礎乘區：</strong>表功與技能倍率的乘積。</li>
                 <li><strong>增傷乘區：</strong>標準的物/魔傷加成。</li>
-                <li><strong>最終乘區：</strong>由「終傷」與「技能終傷」相加構成的獨立乘區。</li>
-                <li><strong>攻擊加成區：</strong>物魔攻百分比與 B 傷的混合區。注意：B 傷收益會被技能倍率放大。</li>
-                <li><strong>爆傷乘區：</strong>必爆狀態下的放大倍率（含 20% 基礎倍率）。</li>
+                <li><strong>終傷乘區：</strong>由「終傷」與「技能終傷」相加構成的獨立乘區。</li>
+                <li><strong>攻擊加成區：</strong>物魔攻百分比與 B 傷的混合區。B 傷收益會被技能倍率放大。</li>
+                <li><strong>爆傷乘區：</strong>百爆狀態下的放大倍率（含 20% 基礎倍率）。</li>
             </ul>
         </details>
     </div>
